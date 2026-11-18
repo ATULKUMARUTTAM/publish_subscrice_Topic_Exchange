@@ -1,6 +1,7 @@
 package com.example.ProducerService;
 
 
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,9 +14,15 @@ public class RabbitMQConfig
 
 
 
+//    @Bean
+//    public TopicExchange topicExchange()
+//    {
+//        return new TopicExchange(EXCHANGE_NAME, true, false);
+//    }
+
     @Bean
-    public TopicExchange topicExchange()
+    public FanoutExchange fanoutExchange()
     {
-        return new TopicExchange(EXCHANGE_NAME, true, false);
+        return new FanoutExchange(EXCHANGE_NAME, true, false);
     }
 }

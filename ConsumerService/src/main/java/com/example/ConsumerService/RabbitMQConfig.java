@@ -1,9 +1,6 @@
 package com.example.ConsumerService;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,10 +13,15 @@ public class RabbitMQConfig
 
     public static final String NOTIFICATION_QUEUE = "notification.queue";
 
+ //   @Bean
+//    public TopicExchange topicExchange()
+//    {
+//        return new TopicExchange(EXCHANGE_NAME,true,false);
+//    }
     @Bean
-    public TopicExchange topicExchange()
+    public FanoutExchange fanoutExchange()
     {
-        return new TopicExchange(EXCHANGE_NAME,true,false);
+        return new FanoutExchange(EXCHANGE_NAME, true, false);
     }
 
     @Bean
@@ -38,16 +40,15 @@ public class RabbitMQConfig
     public Binding billingBinding()
     {
         return BindingBuilder.bind(billingQueue())
-                .to(topicExchange())
-                .with("order.created");
+                .to(fanoutExchange());
+
     }
 
     @Bean
     public Binding notificationBinding()
     {
         return BindingBuilder.bind(notificationQueue())
-                .to(topicExchange())
-                .with("order.*");
+                .to(fanoutExchange());
     }
 
 
